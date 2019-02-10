@@ -49,6 +49,20 @@ describe( 'MockNode', () => {
       expect( callback.calledOnce ).to.be.true;
       expect( callback.calledWith( event ) ).to.be.true;
     } );
+
+    it( 'should throw error if there is no listener for the sent event', () => {
+      // arrange
+      const m = new MockNode();
+      const event = new MockEvent().setClientPoint( 1, 2 );
+
+      // act
+      const badFn = () => {
+        m.sendEvent( 'mousedown', event );
+      };
+
+      // assert
+      expect( badFn ).to.throw();
+    } );
   } );
 
   describe( 'setBoundingClientRect', () => {
