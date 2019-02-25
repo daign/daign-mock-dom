@@ -1,4 +1,4 @@
-import {MockEvent} from './mockEvent';
+import { MockEvent } from './mockEvent';
 
 /**
  * Interface for BoundingClientRect objects.
@@ -12,15 +12,18 @@ interface IBoundingClientRect {
  * Class to construct an object that behaves like a DOM node for mocking.
  */
 export class MockNode {
+  public nodeName: string | undefined;
+  public namespaceURI: string | undefined;
+
   // In contrast to browser implementation this mock only holds one callback for every event name.
-  private eventListeners: { [ eventName: string ]: ( event: any ) => void; } = {};
+  private eventListeners: { [ eventName: string ]: ( event: any ) => void } = {};
 
   private boundingClientRect: IBoundingClientRect = { left: 0, top: 0 };
 
   /**
    * Constructor.
    */
-  constructor() {}
+  public constructor() {}
 
   /**
    * Simulation of standard node method addEventListener.
@@ -69,4 +72,9 @@ export class MockNode {
   public getBoundingClientRect(): IBoundingClientRect {
     return this.boundingClientRect;
   }
+
+  /**
+   * Method stub for standard method setAttribute
+   */
+  public setAttribute(): void {}
 }

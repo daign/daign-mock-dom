@@ -1,4 +1,4 @@
-import {MockNode} from './mockNode';
+import { MockNode } from './mockNode';
 
 /**
  * Class to construct an event-like object for mocking
@@ -19,7 +19,7 @@ export class MockEvent {
   /**
    * Constructor
    */
-  constructor() {}
+  public constructor() {}
 
   /**
    * Set the coordinates for clientX and clientY
