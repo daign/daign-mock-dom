@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { MockDocument } from '../lib/mockDocument';
 import { MockNode } from '../lib/mockNode';
 
-describe( 'MockDocument', () => {
-  describe( 'createElement', () => {
-    it( 'should return a MockNode', () => {
+describe( 'MockDocument', (): void => {
+  describe( 'createElement', (): void => {
+    it( 'should return a MockNode', (): void => {
       // Arrange
       const m = new MockDocument();
 
@@ -16,7 +16,7 @@ describe( 'MockDocument', () => {
       expect( result instanceof MockNode ).to.be.true;
     } );
 
-    it( 'should set the node name when passed', () => {
+    it( 'should set the node name when passed', (): void => {
       // Arrange
       const nodeName = 'SomeNodeName';
       const m = new MockDocument();
@@ -28,7 +28,7 @@ describe( 'MockDocument', () => {
       expect( result.nodeName ).to.equal( nodeName );
     } );
 
-    it( 'should set the correct name space', () => {
+    it( 'should set the correct name space', (): void => {
       // Arrange
       const m = new MockDocument();
 
@@ -40,8 +40,8 @@ describe( 'MockDocument', () => {
     } );
   } );
 
-  describe( 'createElementNS', () => {
-    it( 'should return a MockNode', () => {
+  describe( 'createElementNS', (): void => {
+    it( 'should return a MockNode', (): void => {
       // Arrange
       const m = new MockDocument();
 
@@ -52,7 +52,7 @@ describe( 'MockDocument', () => {
       expect( result instanceof MockNode ).to.be.true;
     } );
 
-    it( 'should set the name space when passed', () => {
+    it( 'should set the name space when passed', (): void => {
       // Arrange
       const nameSpace = 'SomeNameSpace';
       const m = new MockDocument();
@@ -64,7 +64,7 @@ describe( 'MockDocument', () => {
       expect( result.namespaceURI ).to.equal( nameSpace );
     } );
 
-    it( 'should set the node name when passed', () => {
+    it( 'should set the node name when passed', (): void => {
       // Arrange
       const nameSpace = 'SomeNameSpace';
       const nodeName = 'SomeNodeName';

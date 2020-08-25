@@ -4,9 +4,9 @@ import * as sinon from 'sinon';
 import { MockEvent } from '../lib/mockEvent';
 import { MockNode } from '../lib/mockNode';
 
-describe( 'MockNode', () => {
-  describe( 'addEventListener', () => {
-    it( 'should add event listener', () => {
+describe( 'MockNode', (): void => {
+  describe( 'addEventListener', (): void => {
+    it( 'should add event listener', (): void => {
       // Arrange
       const m = new MockNode();
       const callback = (): void => {};
@@ -19,8 +19,8 @@ describe( 'MockNode', () => {
     } );
   } );
 
-  describe( 'removeEventListener', () => {
-    it( 'should remove event listener', () => {
+  describe( 'removeEventListener', (): void => {
+    it( 'should remove event listener', (): void => {
       // Arrange
       const m = new MockNode();
       const callback = (): void => {};
@@ -34,8 +34,8 @@ describe( 'MockNode', () => {
     } );
   } );
 
-  describe( 'sendEvent', () => {
-    it( 'should call event listener with event object', () => {
+  describe( 'sendEvent', (): void => {
+    it( 'should call event listener with event object', (): void => {
       // Arrange
       const m = new MockNode();
       const callback = sinon.spy();
@@ -50,7 +50,7 @@ describe( 'MockNode', () => {
       expect( callback.calledWith( event ) ).to.be.true;
     } );
 
-    it( 'should throw error if there is no listener for the sent event', () => {
+    it( 'should throw error if there is no listener for the sent event', (): void => {
       // Arrange
       const m = new MockNode();
       const event = new MockEvent().setClientPoint( 1, 2 );
@@ -65,8 +65,8 @@ describe( 'MockNode', () => {
     } );
   } );
 
-  describe( 'setBoundingClientRect', () => {
-    it( 'should set boundingClientRect', () => {
+  describe( 'setBoundingClientRect', (): void => {
+    it( 'should set boundingClientRect', (): void => {
       // Arrange
       const m = new MockNode();
       const rect = { left: 1, top: 2 };
@@ -79,8 +79,8 @@ describe( 'MockNode', () => {
     } );
   } );
 
-  describe( 'getBoundingClientRect', () => {
-    it( 'should get boundingClientRect', () => {
+  describe( 'getBoundingClientRect', (): void => {
+    it( 'should get boundingClientRect', (): void => {
       // Arrange
       const m = new MockNode();
       const rect = { left: 1, top: 2 };
@@ -94,8 +94,8 @@ describe( 'MockNode', () => {
     } );
   } );
 
-  describe( 'setAttribute', () => {
-    it( 'should not throw an error when called', () => {
+  describe( 'setAttribute', (): void => {
+    it( 'should not throw an error when called', (): void => {
       // Arrange
       const m = new MockNode();
 

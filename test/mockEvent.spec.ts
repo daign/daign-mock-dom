@@ -2,9 +2,9 @@ import { expect } from 'chai';
 
 import { MockEvent } from '../lib/mockEvent';
 
-describe( 'MockEvent', () => {
-  describe( 'setClientPoint', () => {
-    it( 'should set clientX and clientY', () => {
+describe( 'MockEvent', (): void => {
+  describe( 'setClientPoint', (): void => {
+    it( 'should set clientX and clientY', (): void => {
       // Arrange
       const m = new MockEvent();
 
@@ -17,8 +17,8 @@ describe( 'MockEvent', () => {
     } );
   } );
 
-  describe( 'setOffsetPoint', () => {
-    it( 'should set offsetX and offsetY', () => {
+  describe( 'setOffsetPoint', (): void => {
+    it( 'should set offsetX and offsetY', (): void => {
       // Arrange
       const m = new MockEvent();
 
@@ -31,8 +31,8 @@ describe( 'MockEvent', () => {
     } );
   } );
 
-  describe( 'setPagePoint', () => {
-    it( 'should set pageX and pageY', () => {
+  describe( 'setPagePoint', (): void => {
+    it( 'should set pageX and pageY', (): void => {
       // Arrange
       const m = new MockEvent();
 
@@ -45,8 +45,8 @@ describe( 'MockEvent', () => {
     } );
   } );
 
-  describe( 'addTouchPoint', () => {
-    it( 'should add touch events', () => {
+  describe( 'addTouchPoint', (): void => {
+    it( 'should add touch events', (): void => {
       // Arrange
       const touchEvent1 = new MockEvent().setClientPoint( 1, 2 );
       const touchEvent2 = new MockEvent().setClientPoint( 3, 4 );
@@ -65,8 +65,8 @@ describe( 'MockEvent', () => {
     } );
   } );
 
-  describe( 'addTargetTouchPoint', () => {
-    it( 'should add target touch events', () => {
+  describe( 'addTargetTouchPoint', (): void => {
+    it( 'should add target touch events', (): void => {
       // Arrange
       const touchEvent1 = new MockEvent().setClientPoint( 1, 2 );
       const touchEvent2 = new MockEvent().setClientPoint( 3, 4 );
@@ -85,8 +85,8 @@ describe( 'MockEvent', () => {
     } );
   } );
 
-  describe( 'preventDefault', () => {
-    it( 'should not throw an error when called', () => {
+  describe( 'preventDefault', (): void => {
+    it( 'should not throw an error when called', (): void => {
       // Arrange
       const m = new MockEvent();
 
@@ -95,8 +95,8 @@ describe( 'MockEvent', () => {
     } );
   } );
 
-  describe( 'stopPropagation', () => {
-    it( 'should not throw an error when called', () => {
+  describe( 'stopPropagation', (): void => {
+    it( 'should not throw an error when called', (): void => {
       // Arrange
       const m = new MockEvent();
 
