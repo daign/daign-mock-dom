@@ -5,6 +5,82 @@ import { MockEvent } from '../lib/mockEvent';
 import { MockNode } from '../lib/mockNode';
 
 describe( 'MockNode', (): void => {
+  describe( 'firstChild', (): void => {
+    it( 'should return the first child', (): void => {
+      // Arrange
+      const m = new MockNode();
+      const child1 = new MockNode();
+      const child2 = new MockNode();
+      m.appendChild( child1 );
+      m.appendChild( child2 );
+
+      // Act
+      const result = m.firstChild;
+
+      // Assert
+      expect( result ).to.equal( child1 );
+    } );
+
+    it( 'should return null when there are no children', (): void => {
+      // Arrange
+      const m = new MockNode();
+
+      // Act
+      const result = m.firstChild;
+
+      // Assert
+      expect( result ).to.be.null;
+    } );
+  } );
+
+  describe( 'appendChild', (): void => {
+    it( 'should append a child node', (): void => {
+      // Arrange
+      const m = new MockNode();
+      const child = new MockNode();
+
+      // Act
+      const result = m.appendChild( child );
+
+      // Assert
+      expect( result ).to.equal( child );
+      expect( m.children.length ).to.equal( 1 );
+    } );
+  } );
+
+  describe( 'removeChild', (): void => {
+    it( 'should remove a child node', (): void => {
+      // Arrange
+      const m = new MockNode();
+      const child1 = new MockNode();
+      const child2 = new MockNode();
+      m.appendChild( child1 );
+      m.appendChild( child2 );
+
+      // Act
+      const result = m.removeChild( child1 );
+
+      // Assert
+      expect( result ).to.equal( child1 );
+      expect( m.children.length ).to.equal( 1 );
+      expect( m.children[ 0 ] ).to.equal( child2 );
+    } );
+
+    it( 'should throw error when the node to be removed is not a child of this node.', (): void => {
+      // Arrange
+      const m = new MockNode();
+      const child = new MockNode();
+
+      // Act
+      const badFn = (): void => {
+        m.removeChild( child );
+      };
+
+      // Assert
+      expect( badFn ).to.throw( 'The node to be removed is not a child of this node.' );
+    } );
+  } );
+
   describe( 'addEventListener', (): void => {
     it( 'should add event listener', (): void => {
       // Arrange
@@ -101,6 +177,19 @@ describe( 'MockNode', (): void => {
 
       // Act and assert
       expect( m.setAttribute ).to.not.throw();
+    } );
+
+    it( 'should not throw an error when called with parameters', (): void => {
+      // Arrange
+      const m = new MockNode();
+
+      // Act
+      const badFn = (): void => {
+        m.setAttribute( 1, 2 );
+      };
+
+      // Act and assert
+      expect( badFn ).to.not.throw();
     } );
   } );
 } );

@@ -1,6 +1,6 @@
 {
   "name": "@daign/mock-dom",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Mocking DOM nodes and events for unit tests in Typescript.",
   "keywords": [
     "mock",

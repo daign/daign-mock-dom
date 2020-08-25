@@ -15,15 +15,55 @@ export class MockNode {
   public nodeName: string | undefined;
   public namespaceURI: string | undefined;
 
+  public children: MockNode[] = [];
+
   // In contrast to browser implementation this mock only holds one callback for every event name.
   private eventListeners: { [ eventName: string ]: ( event: any ) => void } = {};
 
   private boundingClientRect: IBoundingClientRect = { left: 0, top: 0 };
 
   /**
+   * Get the first child
+   * @returns The first child or null
+   */
+  public get firstChild(): MockNode | null {
+    if ( this.children.length > 0 ) {
+      return this.children[ 0 ];
+    } else {
+      return null;
+    }
+  }
+
+  /**
    * Constructor.
    */
   public constructor() {}
+
+  /**
+   * Simulation of standard node method appendChild.
+   * @param child The child node to add
+   * @returns The added child node
+   */
+  public appendChild( child: MockNode ): MockNode {
+    this.children.push( child );
+    return child;
+  }
+
+  /**
+   * Simulation of standard node method removeChild.
+   * Will throw an error when the node to be removed is not a child of this node.
+   * @param child The child node to remove
+   * @returns The removed child node
+   */
+  public removeChild( child: MockNode ): MockNode {
+    const index = this.children.indexOf( child );
+    if ( index > -1 ) {
+      this.children.splice( index, 1 );
+      return child;
+    } else {
+      throw new Error( 'The node to be removed is not a child of this node.' );
+    }
+  }
 
   /**
    * Simulation of standard node method addEventListener.
@@ -76,5 +116,5 @@ export class MockNode {
   /**
    * Method stub for standard method setAttribute
    */
-  public setAttribute(): void {}
+  public setAttribute( ..._: any[] ): void {}
 }
