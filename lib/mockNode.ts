@@ -17,6 +17,8 @@ export class MockNode {
 
   public children: MockNode[] = [];
 
+  public style: any = {};
+
   // In contrast to browser implementation this mock only holds one callback for every event name.
   private eventListeners: { [ eventName: string ]: ( event: any ) => void } = {};
 
