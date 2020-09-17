@@ -192,4 +192,27 @@ describe( 'MockNode', (): void => {
       expect( badFn ).to.not.throw();
     } );
   } );
+
+  describe( 'removeAttribute', (): void => {
+    it( 'should not throw an error when called', (): void => {
+      // Arrange
+      const m = new MockNode();
+
+      // Act and assert
+      expect( m.removeAttribute ).to.not.throw();
+    } );
+
+    it( 'should not throw an error when called with parameters', (): void => {
+      // Arrange
+      const m = new MockNode();
+
+      // Act
+      const badFn = (): void => {
+        m.removeAttribute( 1, 2 );
+      };
+
+      // Act and assert
+      expect( badFn ).to.not.throw();
+    } );
+  } );
 } );

@@ -119,4 +119,9 @@ export class MockNode {
    * Method stub for standard method setAttribute
    */
   public setAttribute( ..._: any[] ): void {}
+
+  /**
+   * Method stub for standard method removeAttribute
+   */
+  public removeAttribute( ..._: any[] ): void {}
 }
