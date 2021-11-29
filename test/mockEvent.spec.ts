@@ -85,6 +85,32 @@ describe( 'MockEvent', (): void => {
     } );
   } );
 
+  describe( 'setScrollDelta', (): void => {
+    it( 'should set deltaX and deltaY', (): void => {
+      // Arrange
+      const m = new MockEvent();
+
+      // Act
+      m.setScrollDelta( 1, 2 );
+
+      // Assert
+      expect( m.deltaX ).to.equal( 1 );
+      expect( m.deltaY ).to.equal( 2 );
+      expect( m.deltaMode ).to.equal( 0 );
+    } );
+
+    it( 'should set deltaMode', (): void => {
+      // Arrange
+      const m = new MockEvent();
+
+      // Act
+      m.setScrollDelta( 1, 2, 3 );
+
+      // Assert
+      expect( m.deltaMode ).to.equal( 3 );
+    } );
+  } );
+
   describe( 'preventDefault', (): void => {
     it( 'should not throw an error when called', (): void => {
       // Arrange

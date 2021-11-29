@@ -1,7 +1,7 @@
 import { MockNode } from './mockNode';
 
 /**
- * Class to construct an event-like object for mocking
+ * Class to construct an event-like object for mocking.
  */
 export class MockEvent {
   public clientX: number | undefined = undefined;
@@ -14,18 +14,22 @@ export class MockEvent {
   public touches: MockEvent[] | undefined = undefined;
   public targetTouches: MockEvent[] | undefined = undefined;
 
+  public deltaX: number | undefined = undefined;
+  public deltaY: number | undefined = undefined;
+  public deltaMode: number | undefined = undefined;
+
   public target: MockNode | undefined = undefined;
 
   /**
-   * Constructor
+   * Constructor.
    */
   public constructor() {}
 
   /**
-   * Set the coordinates for clientX and clientY
-   * @param x The x coordinate
-   * @param y The y coordinate
-   * @returns A reference to itself
+   * Set the coordinates for clientX and clientY.
+   * @param x - The x coordinate.
+   * @param y - The y coordinate.
+   * @returns A reference to itself.
    */
   public setClientPoint( x: number, y: number ): MockEvent {
     this.clientX = x;
@@ -34,10 +38,10 @@ export class MockEvent {
   }
 
   /**
-   * Set the coordinates for offsetX and offsetY
-   * @param x The x coordinate
-   * @param y The y coordinate
-   * @returns A reference to itself
+   * Set the coordinates for offsetX and offsetY.
+   * @param x - The x coordinate.
+   * @param y - The y coordinate.
+   * @returns A reference to itself.
    */
   public setOffsetPoint( x: number, y: number ): MockEvent {
     this.offsetX = x;
@@ -46,10 +50,10 @@ export class MockEvent {
   }
 
   /**
-   * Set the coordinates for pageX and pageY
-   * @param x The x coordinate
-   * @param y The y coordinate
-   * @returns A reference to itself
+   * Set the coordinates for pageX and pageY.
+   * @param x - The x coordinate.
+   * @param y - The y coordinate.
+   * @returns A reference to itself.
    */
   public setPagePoint( x: number, y: number ): MockEvent {
     this.pageX = x;
@@ -58,9 +62,9 @@ export class MockEvent {
   }
 
   /**
-   * Add a touch event
-   * @param touchEvent A MockEvent for the touch event
-   * @returns A reference to itself
+   * Add a touch event.
+   * @param touchEvent - A MockEvent for the touch event.
+   * @returns A reference to itself.
    */
   public addTouchPoint( touchEvent: MockEvent ): MockEvent {
     if ( !this.touches ) {
@@ -71,9 +75,9 @@ export class MockEvent {
   }
 
   /**
-   * Add a target touch event
-   * @param touchEvent A MockEvent for the touch event
-   * @returns A reference to itself
+   * Add a target touch event.
+   * @param touchEvent - A MockEvent for the touch event.
+   * @returns A reference to itself.
    */
   public addTargetTouchPoint( touchEvent: MockEvent ): MockEvent {
     if ( !this.targetTouches ) {
@@ -84,12 +88,32 @@ export class MockEvent {
   }
 
   /**
-   * Method stub for standard Event method preventDefault
+   * Set the delta values for scroll events.
+   * @param x - The x value.
+   * @param y - The y value.
+   * @param mode - The delta scroll mode. Optional.
+   * @returns A reference to itself.
+   */
+  public setScrollDelta( x: number, y: number, mode?: number ): MockEvent {
+    this.deltaX = x;
+    this.deltaY = y;
+
+    if ( mode !== undefined ) {
+      this.deltaMode = mode;
+    } else {
+      this.deltaMode = 0;
+    }
+
+    return this;
+  }
+
+  /**
+   * Method stub for standard Event method preventDefault.
    */
   public preventDefault(): void {}
 
   /**
-   * Method stub for standard Event method stopPropagation
+   * Method stub for standard Event method stopPropagation.
    */
   public stopPropagation(): void {}
 }
