@@ -168,6 +168,17 @@ describe( 'MockNode', (): void => {
       // Assert
       expect( result ).to.equal( rect );
     } );
+
+    it( 'should return undefined if boundingClientRect was not set', (): void => {
+      // Arrange
+      const m = new MockNode();
+
+      // Act
+      const result = m.getBoundingClientRect();
+
+      // Assert
+      expect( result ).to.be.undefined;
+    } );
   } );
 
   describe( 'setAttribute', (): void => {

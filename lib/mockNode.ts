@@ -4,8 +4,8 @@ import { MockEvent } from './mockEvent';
  * Interface for BoundingClientRect objects.
  */
 interface IBoundingClientRect {
-  left: number;
-  top: number;
+  left: number | undefined
+  top: number | undefined
 }
 
 /**
@@ -23,11 +23,11 @@ export class MockNode {
   // In contrast to browser implementation this mock only holds one callback for every event name.
   private eventListeners: { [ eventName: string ]: ( event: any ) => void } = {};
 
-  private boundingClientRect: IBoundingClientRect = { left: 0, top: 0 };
+  private boundingClientRect: IBoundingClientRect | undefined;
 
   /**
-   * Get the first child
-   * @returns The first child or null
+   * Get the first child.
+   * @returns The first child or null.
    */
   public get firstChild(): MockNode | null {
     if ( this.children.length > 0 ) {
@@ -44,8 +44,8 @@ export class MockNode {
 
   /**
    * Simulation of standard node method appendChild.
-   * @param child The child node to add
-   * @returns The added child node
+   * @param child - The child node to add.
+   * @returns The added child node.
    */
   public appendChild( child: MockNode ): MockNode {
     this.children.push( child );
@@ -55,8 +55,8 @@ export class MockNode {
   /**
    * Simulation of standard node method removeChild.
    * Will throw an error when the node to be removed is not a child of this node.
-   * @param child The child node to remove
-   * @returns The removed child node
+   * @param child - The child node to remove.
+   * @returns The removed child node.
    */
   public removeChild( child: MockNode ): MockNode {
     const index = this.children.indexOf( child );
@@ -71,8 +71,8 @@ export class MockNode {
   /**
    * Simulation of standard node method addEventListener.
    * Overwrites previous listeners to the same event name.
-   * @param eventName The name of the event
-   * @param callback The listener callback function
+   * @param eventName - The name of the event.
+   * @param callback - The listener callback function.
    */
   public addEventListener( eventName: string, callback: ( event: any ) => void ): void {
     this.eventListeners[ eventName ] = callback;
@@ -80,7 +80,7 @@ export class MockNode {
 
   /**
    * Simulation of standard node method removeEventListener.
-   * @param eventName The name of the event
+   * @param eventName - The name of the event.
    */
   public removeEventListener( eventName: string ): void {
     delete this.eventListeners[ eventName ];
@@ -89,9 +89,9 @@ export class MockNode {
   /**
    * Simulates an event being send to the registered listener.
    * Will throw error if no listener is registered to the event name.
-   * @param eventName The name of the event
-   * @param event The event data to send
-   * @returns A reference to itself
+   * @param eventName - The name of the event.
+   * @param event - The event data to send.
+   * @returns A reference to itself.
    */
   public sendEvent( eventName: string, event: MockEvent ): MockNode {
     this.eventListeners[ eventName ]( event );
@@ -99,30 +99,30 @@ export class MockNode {
   }
 
   /**
-   * Set the bounding client rect
-   * @param rect The bounding client rect object
-   * @returns A reference to itself
+   * Set the bounding client rect.
+   * @param rect - The bounding client rect object.
+   * @returns A reference to itself.
    */
-  public setBoundingClientRect( rect: IBoundingClientRect ): MockNode {
+  public setBoundingClientRect( rect: IBoundingClientRect | undefined ): MockNode {
     this.boundingClientRect = rect;
     return this;
   }
 
   /**
    * Simulation of standard node method getBoundingClientRect.
-   * @returns The bounding client rect object
+   * @returns The bounding client rect object or undefined.
    */
-  public getBoundingClientRect(): IBoundingClientRect {
+  public getBoundingClientRect(): IBoundingClientRect | undefined {
     return this.boundingClientRect;
   }
 
   /**
-   * Method stub for standard method setAttribute
+   * Method stub for standard method setAttribute.
    */
   public setAttribute( ..._: any[] ): void {}
 
   /**
-   * Method stub for standard method removeAttribute
+   * Method stub for standard method removeAttribute.
    */
   public removeAttribute( ..._: any[] ): void {}
 }
