@@ -85,6 +85,26 @@ describe( 'MockEvent', (): void => {
     } );
   } );
 
+  describe( 'addChangedTouchPoint', (): void => {
+    it( 'should add changed touch events', (): void => {
+      // Arrange
+      const touchEvent1 = new MockEvent().setClientPoint( 1, 2 );
+      const touchEvent2 = new MockEvent().setClientPoint( 3, 4 );
+      const m = new MockEvent();
+
+      // Act
+      m.addChangedTouchPoint( touchEvent1 );
+      m.addChangedTouchPoint( touchEvent2 );
+
+      // Assert
+      expect( m.changedTouches!.length ).to.equal( 2 );
+      expect( m.changedTouches![ 0 ].clientX ).to.equal( 1 );
+      expect( m.changedTouches![ 0 ].clientY ).to.equal( 2 );
+      expect( m.changedTouches![ 1 ].clientX ).to.equal( 3 );
+      expect( m.changedTouches![ 1 ].clientY ).to.equal( 4 );
+    } );
+  } );
+
   describe( 'setScrollDelta', (): void => {
     it( 'should set deltaX and deltaY', (): void => {
       // Arrange

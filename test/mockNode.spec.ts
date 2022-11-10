@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import * as sinon from 'sinon';
+import { spy } from 'sinon';
 
 import { MockEvent } from '../lib/mockEvent';
 import { MockNode } from '../lib/mockNode';
@@ -91,7 +91,36 @@ describe( 'MockNode', (): void => {
       m.addEventListener( 'mousedown', callback );
 
       // Assert
-      expect( 'mousedown' in ( m as any ).eventListeners ).to.be.true;
+      expect( ( m as any ).eventListeners.hasOwnProperty( 'mousedown' ) ).to.be.true;
+    } );
+
+    it( 'should test access the properties of the options object', (): void => {
+      // Arrange
+      const m = new MockNode();
+      const callback = (): void => {};
+
+      const options = {
+        get capture(): boolean {
+          return false;
+        },
+        get once(): boolean {
+          return false;
+        },
+        get passive(): boolean {
+          return false;
+        }
+      };
+      const captureAccessSpy = spy( options, 'capture', [ 'get' ] );
+      const onceAccessSpy = spy( options, 'once', [ 'get' ] );
+      const passiveAccessSpy = spy( options, 'passive', [ 'get' ] );
+
+      // Act
+      m.addEventListener( 'mousedown', callback, options );
+
+      // Assert
+      expect( captureAccessSpy.get.calledOnce ).to.be.true;
+      expect( onceAccessSpy.get.calledOnce ).to.be.true;
+      expect( passiveAccessSpy.get.calledOnce ).to.be.true;
     } );
   } );
 
@@ -100,13 +129,13 @@ describe( 'MockNode', (): void => {
       // Arrange
       const m = new MockNode();
       const callback = (): void => {};
-      m.addEventListener( 'mousedown', callback );
+      m.addEventListener( 'mousedown', callback, false );
 
       // Act
       m.removeEventListener( 'mousedown' );
 
       // Assert
-      expect( 'mousedown' in ( m as any ).eventListeners ).to.be.false;
+      expect( ( m as any ).eventListeners.hasOwnProperty( 'mousedown' ) ).to.be.false;
     } );
   } );
 
@@ -114,8 +143,8 @@ describe( 'MockNode', (): void => {
     it( 'should call event listener with event object', (): void => {
       // Arrange
       const m = new MockNode();
-      const callback = sinon.spy();
-      m.addEventListener( 'mousedown', callback );
+      const callback = spy();
+      m.addEventListener( 'mousedown', callback, false );
       const event = new MockEvent().setClientPoint( 1, 2 );
 
       // Act
@@ -182,48 +211,134 @@ describe( 'MockNode', (): void => {
   } );
 
   describe( 'setAttribute', (): void => {
-    it( 'should not throw an error when called', (): void => {
-      // Arrange
-      const m = new MockNode();
-
-      // Act and assert
-      expect( m.setAttribute ).to.not.throw();
-    } );
-
-    it( 'should not throw an error when called with parameters', (): void => {
+    it( 'should set the attribute', (): void => {
       // Arrange
       const m = new MockNode();
 
       // Act
-      const badFn = (): void => {
-        m.setAttribute( 1, 2 );
-      };
+      m.setAttribute( 'someName', 'someValue' );
 
-      // Act and assert
-      expect( badFn ).to.not.throw();
+      // Assert
+      expect( ( m as any ).attributes.someName ).to.equal( 'someValue' );
+    } );
+  } );
+
+  describe( 'getAttribute', (): void => {
+    it( 'should get the attribute value', (): void => {
+      // Arrange
+      const m = new MockNode();
+      m.setAttribute( 'someName', 'someValue' );
+
+      // Act
+      const result = m.getAttribute( 'someName' );
+
+      // Assert
+      expect( result ).to.equal( 'someValue' );
+    } );
+  } );
+
+  describe( 'hasAttribute', (): void => {
+    it( 'should return true if the attribute exists', (): void => {
+      // Arrange
+      const m = new MockNode();
+      m.setAttribute( 'someName', 'someValue' );
+
+      // Act
+      const result = m.hasAttribute( 'someName' );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if the attribute does not exist', (): void => {
+      // Arrange
+      const m = new MockNode();
+
+      // Act
+      const result = m.hasAttribute( 'someName' );
+
+      // Assert
+      expect( result ).to.be.false;
     } );
   } );
 
   describe( 'removeAttribute', (): void => {
-    it( 'should not throw an error when called', (): void => {
+    it( 'should remove the attribute', (): void => {
       // Arrange
       const m = new MockNode();
+      m.setAttribute( 'someName', 'someValue' );
 
-      // Act and assert
-      expect( m.removeAttribute ).to.not.throw();
+      // Act
+      m.removeAttribute( 'someName' );
+
+      // Assert
+      expect( m.hasAttribute( 'someName' ) ).to.be.false;
     } );
+  } );
 
-    it( 'should not throw an error when called with parameters', (): void => {
+  describe( 'setAttributeNS', (): void => {
+    it( 'should set the namespace aware attribute', (): void => {
       // Arrange
       const m = new MockNode();
 
       // Act
-      const badFn = (): void => {
-        m.removeAttribute( 1, 2 );
-      };
+      m.setAttributeNS( 'namespace', 'someName', 'someValue' );
 
-      // Act and assert
-      expect( badFn ).to.not.throw();
+      // Assert
+      expect( ( m as any ).namespaceAttributes.someName ).to.equal( 'someValue' );
+    } );
+  } );
+
+  describe( 'getAttributeNS', (): void => {
+    it( 'should get the namespace aware attribute value', (): void => {
+      // Arrange
+      const m = new MockNode();
+      m.setAttributeNS( 'namespace', 'someName', 'someValue' );
+
+      // Act
+      const result = m.getAttributeNS( 'namespace', 'someName' );
+
+      // Assert
+      expect( result ).to.equal( 'someValue' );
+    } );
+  } );
+
+  describe( 'hasAttributeNS', (): void => {
+    it( 'should return true if the namespace aware attribute exists', (): void => {
+      // Arrange
+      const m = new MockNode();
+      m.setAttributeNS( 'namespace', 'someName', 'someValue' );
+
+      // Act
+      const result = m.hasAttributeNS( 'namespace', 'someName' );
+
+      // Assert
+      expect( result ).to.be.true;
+    } );
+
+    it( 'should return false if the namespace aware attribute does not exist', (): void => {
+      // Arrange
+      const m = new MockNode();
+
+      // Act
+      const result = m.hasAttributeNS( 'namespace', 'someName' );
+
+      // Assert
+      expect( result ).to.be.false;
+    } );
+  } );
+
+  describe( 'removeAttributeNS', (): void => {
+    it( 'should remove the namespace aware attribute', (): void => {
+      // Arrange
+      const m = new MockNode();
+      m.setAttributeNS( 'namespace', 'someName', 'someValue' );
+
+      // Act
+      m.removeAttributeNS( 'namespace', 'someName' );
+
+      // Assert
+      expect( m.hasAttributeNS( 'namespace', 'someName' ) ).to.be.false;
     } );
   } );
 } );

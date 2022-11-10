@@ -20,6 +20,9 @@ export class MockNode {
   public style: any = {};
   public textContent: string | undefined;
 
+  private attributes: { [ attributeName: string ]: string } = {};
+  private namespaceAttributes: { [ attributeName: string ]: string } = {};
+
   // In contrast to browser implementation this mock only holds one callback for every event name.
   private eventListeners: { [ eventName: string ]: ( event: any ) => void } = {};
 
@@ -73,16 +76,37 @@ export class MockNode {
    * Overwrites previous listeners to the same event name.
    * @param eventName - The name of the event.
    * @param callback - The listener callback function.
+   * @param options - The event listener options or useCapture value. Optional.
    */
-  public addEventListener( eventName: string, callback: ( event: any ) => void ): void {
+  public addEventListener(
+    eventName: string,
+    callback: ( event: any ) => void,
+    options?: AddEventListenerOptions | boolean
+  ): void {
     this.eventListeners[ eventName ] = callback;
+
+    // Test accessing the options properties.
+    if ( options && typeof options === 'object' ) {
+      // tslint:disable-next-line:no-unused-expression-chai
+      options.capture;
+      // tslint:disable-next-line:no-unused-expression-chai
+      options.once;
+      // tslint:disable-next-line:no-unused-expression-chai
+      options.passive;
+    }
   }
 
   /**
    * Simulation of standard node method removeEventListener.
    * @param eventName - The name of the event.
+   * @param _callback - The listener callback function. Optional for testing.
+   * @param _options - The event listener options or useCapture value. Optional.
    */
-  public removeEventListener( eventName: string ): void {
+  public removeEventListener(
+    eventName: string,
+    _callback?: ( event: any ) => void,
+    _options?: EventListenerOptions | boolean
+  ): void {
     delete this.eventListeners[ eventName ];
   }
 
@@ -117,12 +141,76 @@ export class MockNode {
   }
 
   /**
-   * Method stub for standard method setAttribute.
+   * Set an attribute.
+   * @param name - The attribute name.
+   * @param value - The attribute value.
    */
-  public setAttribute( ..._: any[] ): void {}
+  public setAttribute( name: string, value: string ): void {
+    this.attributes[ name ] = value;
+  }
 
   /**
-   * Method stub for standard method removeAttribute.
+   * Get an attribute.
+   * @param name - The attribute name.
+   * @returns The attribute value.
    */
-  public removeAttribute( ..._: any[] ): void {}
+  public getAttribute( name: string ): string {
+    return this.attributes[ name ];
+  }
+
+  /**
+   * Check whether the node has an attribute with the specified name.
+   * @param name - The attribute name.
+   * @returns The result of the check.
+   */
+  public hasAttribute( name: string ): boolean {
+    return this.attributes.hasOwnProperty( name );
+  }
+
+  /**
+   * Remove an attribute.
+   * @param name - The attribute name.
+   */
+  public removeAttribute( name: string ): void {
+    delete this.attributes[ name ];
+  }
+
+  /**
+   * Set a namespace aware attribute.
+   * @param namespace - The namespace of the attribute.
+   * @param name - The attribute name.
+   * @param value - The attribute value.
+   */
+  public setAttributeNS( _namespace: string, name: string, value: string ): void {
+    this.namespaceAttributes[ name ] = value;
+  }
+
+  /**
+   * Get a namespace aware attribute.
+   * @param namespace - The namespace of the attribute.
+   * @param name - The attribute name.
+   * @returns The attribute value.
+   */
+  public getAttributeNS( _namespace: string, name: string ): string {
+    return this.namespaceAttributes[ name ];
+  }
+
+  /**
+   * Check whether the node has a namespace aware attribute with the specified name.
+   * @param namespace - The namespace of the attribute.
+   * @param name - The attribute name.
+   * @returns The result of the check.
+   */
+  public hasAttributeNS( _namespace: string, name: string ): boolean {
+    return this.namespaceAttributes.hasOwnProperty( name );
+  }
+
+  /**
+   * Remove a namespace aware attribute.
+   * @param namespace - The namespace of the attribute.
+   * @param name - The attribute name.
+   */
+  public removeAttributeNS( _namespace: string, name: string ): void {
+    delete this.namespaceAttributes[ name ];
+  }
 }

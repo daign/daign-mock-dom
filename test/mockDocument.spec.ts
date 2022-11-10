@@ -5,18 +5,7 @@ import { MockNode } from '../lib/mockNode';
 
 describe( 'MockDocument', (): void => {
   describe( 'createElement', (): void => {
-    it( 'should return a MockNode', (): void => {
-      // Arrange
-      const m = new MockDocument();
-
-      // Act
-      const result = m.createElement();
-
-      // Assert
-      expect( result instanceof MockNode ).to.be.true;
-    } );
-
-    it( 'should set the node name when passed', (): void => {
+    it( 'should return a MockNode and set the node name', (): void => {
       // Arrange
       const nodeName = 'SomeNodeName';
       const m = new MockDocument();
@@ -25,15 +14,17 @@ describe( 'MockDocument', (): void => {
       const result = m.createElement( nodeName );
 
       // Assert
+      expect( result instanceof MockNode ).to.be.true;
       expect( result.nodeName ).to.equal( nodeName );
     } );
 
-    it( 'should set the correct name space', (): void => {
+    it( 'should set a predefined name space', (): void => {
       // Arrange
+      const nodeName = 'SomeNodeName';
       const m = new MockDocument();
 
       // Act
-      const result = m.createElement();
+      const result = m.createElement( nodeName );
 
       // Assert
       expect( result.namespaceURI ).to.equal( 'http://www.w3.org/1999/xhtml' );
@@ -41,30 +32,7 @@ describe( 'MockDocument', (): void => {
   } );
 
   describe( 'createElementNS', (): void => {
-    it( 'should return a MockNode', (): void => {
-      // Arrange
-      const m = new MockDocument();
-
-      // Act
-      const result = m.createElementNS();
-
-      // Assert
-      expect( result instanceof MockNode ).to.be.true;
-    } );
-
-    it( 'should set the name space when passed', (): void => {
-      // Arrange
-      const nameSpace = 'SomeNameSpace';
-      const m = new MockDocument();
-
-      // Act
-      const result = m.createElementNS( nameSpace );
-
-      // Assert
-      expect( result.namespaceURI ).to.equal( nameSpace );
-    } );
-
-    it( 'should set the node name when passed', (): void => {
+    it( 'should return a MockNode and set the node name', (): void => {
       // Arrange
       const nameSpace = 'SomeNameSpace';
       const nodeName = 'SomeNodeName';
@@ -74,7 +42,21 @@ describe( 'MockDocument', (): void => {
       const result = m.createElementNS( nameSpace, nodeName );
 
       // Assert
+      expect( result instanceof MockNode ).to.be.true;
       expect( result.nodeName ).to.equal( nodeName );
+    } );
+
+    it( 'should set the name space', (): void => {
+      // Arrange
+      const nameSpace = 'SomeNameSpace';
+      const nodeName = 'SomeNodeName';
+      const m = new MockDocument();
+
+      // Act
+      const result = m.createElementNS( nameSpace, nodeName );
+
+      // Assert
+      expect( result.namespaceURI ).to.equal( nameSpace );
     } );
   } );
 } );

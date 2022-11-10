@@ -13,6 +13,7 @@ export class MockEvent {
 
   public touches: MockEvent[] | undefined = undefined;
   public targetTouches: MockEvent[] | undefined = undefined;
+  public changedTouches: MockEvent[] | undefined = undefined;
 
   public deltaX: number | undefined = undefined;
   public deltaY: number | undefined = undefined;
@@ -84,6 +85,19 @@ export class MockEvent {
       this.targetTouches = [];
     }
     this.targetTouches.push( touchEvent );
+    return this;
+  }
+
+  /**
+   * Add a changed touch event.
+   * @param touchEvent - A MockEvent for the touch event.
+   * @returns A reference to itself.
+   */
+  public addChangedTouchPoint( touchEvent: MockEvent ): MockEvent {
+    if ( !this.changedTouches ) {
+      this.changedTouches = [];
+    }
+    this.changedTouches.push( touchEvent );
     return this;
   }
 
